@@ -1,8 +1,6 @@
 
 # Ray Casting Game on PyGame
 
-### Author: Antonio Penev
-
 ## Overview
 
 This project is a video game developed using the PyGame library. The game features 3D visualization from a 2D map using the raycasting technique, creating graphical scenes with depth and perspective.
