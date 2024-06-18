@@ -1,110 +1,100 @@
-Ray casting игра на PyGame
 
-Проектът представлява видео игра, реализирана с помощта на библиотеката pygame. Играта включва разработка на 3D визуализация от 2D мап чрез техниката raycasting, което позволява създаването на графични сцени с дълбочина и перспектива.
+# Ray Casting Game on PyGame
 
-![game](/images/photos/1.png)
+### Author: Antonio Penev
 
-![game](/images/photos/4.png)
+## Overview
 
-![game](/images/photos/5.png)
+This project is a video game developed using the PyGame library. The game features 3D visualization from a 2D map using the raycasting technique, creating graphical scenes with depth and perspective.
 
-Основни класове:
+![game](images/photos/1.png)
+![game](images/photos/4.png)
+![game](images/photos/5.png)
 
-1.Game:
-•	Класът Game е основният управляващ клас, който инициализира и управлява игралния цикъл, включващ обработка на събития, актуализации на състоянието на играта и визуализациите на обектите.
-•	Използва се за инициализация на всички други компоненти като Map, Hero, Objects, RayCasting и Weapon.
-•	Съдържа методите:
-update() - обновява състоянието на играта.
-create() – визуализира обектите.
-run() - изпълнява основния цикъл, който продължава докато играта е активна.
+## Table of Contents
 
-2.Map:
-•	Класът Map превръща абстрактното представяне на света (чрез двумерен масив) в графични обекти, които могат да бъдат визуализирани на екрана. Всяка клетка от картата е представена от число, което определя типа на терена или обекта на тази позиция, 1,2,3,4 – представляват стени, 0 – празно пространство.
-Методи:
-•   get_map(self): Извлича всички елементи от масива map, които не са нули, и ги запазва в world_map с техните координати. 
-•   draw(self): Визуализира картата като рисува всяка клетка, която не е празна, на екрана. Клетките се рисуват като правоъгълници, чийто размер и позиция са базирани •   стойностите в world_map. Размерът на всяка клетка е 100x100 пиксела, а цветът на линията е черен.
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Main Components](#main-components)
+4. [Contributing](#contributing)
+5. [License](#license)
 
-3.Hero:
-•	Този клас управлява позицията, здравето, движението и взаимодействията на героя с други обекти и средата в играта.
-Методи:
-•	check_game_over(self): Проверява дали здравето на героя е паднало под 1, което би означавало край на играта.
-•	get_damage(self, damage): Намалява здравето на героя със стойността на получената щета и проверява за край на играта.
-•	movement(self): Управлява движението на героя въз основа на входа от клавиатурата, като използва тригонометрични функции за изчисляване на посоката въз основа на ъгъла на героя.
-•	check_wall(self, x, y): Проверява за колизии със стени на картата.
-•	check_wall_collision(self, dx, dy): Прилага движението, ако няма колизия със стени.
-•	mouse_control(self): Обновява ориентацията на героя въз основа на движението на мишката.
-•	update(self): Обновява позицията и ориентацията на героя, извиква методите за движение и контрол на мишката.
-•	pos(self): Връща текущите координати на героя.
-•	map_pos(self): Връща целочислените координати на героя, използвани за индексация в картата.
+## Installation
 
-4.Objects:
-•	Objects, който управлява визуализацията на различни обекти в рамките на играта.
-Методи:
-•	draw(self)
-Извиква методите draw_background() и render_game_objects(), които отговарят за визуализацията на фона и игровите обекти.
-•	win(self)
-Показва изображени, когато играчът спечели.
-•	game_over(self)
-Показва изображение, когато героят умре.
-•	hero_damage(self)
-Показва примигване на червен екран, който индикира, че героят е получил щета.
-•	draw_background(self)
-Рисува фоновото изображение на небето, което се изменя в зависимост от движението на героя (hero.rel).
-Рисува пода използвайки зададения цвят.
-•	render_game_objects(self)
-Извиква и рисува всички обекти, които трябва да бъдат визуализирани, съхранени в self.game.raycasting.objects_to_render.
-Обектите се сортират по дълбочина (z-index), за да се осигури правилното наслагване на визуалните елементи.
-•	get_texture(path, res)
-Статичен метод за зареждане и мащабиране на текстурите по зададен път и резолюция.
-•	load_wall_textures(self)
-Зарежда и връща речник от текстури за стени, използвани в играта. Ключовете съответстват на числовите идентификатори на стените в картата.
+To run this game, you need to have Python and the PyGame library installed. You can install PyGame using pip:
 
-5.Weapon:
-•	класът Weapon, управлява визуализацията и функционалността на оръжията, в случая имаме само едно оръжие.
-Методи:
-•	load_images(self, path) - зарежда и оформя мащаба на  изображенията за анимация на оръжието от зададения път. Създава deque от изображения за плавно преминаване през кадрите на анимацията.
-•	check_animation_time(self) - проверява дали е време за смяна на кадъра в анимацията на оръжието, базирано на animation_time. Актуализира last_update_time и управлява animation_trigger.
-•	animate_shot(self) - управлява анимацията на изстрела. Ако оръжието се презарежда и времето за анимация е настъпило, показва следващия кадър. Ако цикълът на анимацията завърши, презареждането се спира.
-•	draw(self) - рисува текущото изображение на оръжието на екрана на зададената позиция.
-•	update(self) - обновява анимациите на оръжието като проверява времето за анимация и управлява логиката на анимацията на изстрела.
+```bash
+pip install pygame
+```
 
-6.Sprite:
-•	Класът Sprite е проектиран за управление и визуализация на спрайтове в играта.
-Методи:
-•	update(self) - oбновява спрайта, като извиква методи за обновяване на позицията, проверка на времето за анимация и самата анимация.
-•	get_sprite_projection(self) - изчислява и зарежда проекцията на спрайта на екрана въз основа на разстоянието до героя и текущия ъгъл. Коригира размера му според разстоянието.
-•	get_sprite(self) - изчислява векторите на спрайта от позицията на героя и коригира ъгъла му спрямо погледа на героя. Изчислява точната позиция на спрайта във виртуалния свят в координати на екрана.
-•	animate(self, images) - обработва анимациите на спрайта, като сменя изображенията за симулиране на движение.
-•	check_animation_time(self) -  проверява дали е време за обновяване на кадъра на анимацията в зависимост от зададеното време за анимация.
-•	get_images(self, path) –  зарежда всички изображения за анимация от директорията и ги съхранява в deque, което позволява плавна анимация на спрайта.
+Clone the repository to your local machine:
 
-7.RayCasting:
-•	Класът RayCasting използва техниката ray casting за визуализация на 3D перспектива от 2D карта. Тази техника позволява зареждане на сцена използвайки изчисления за лъчи, които определят как външният свят се проектира на екрана на играча.
-Методи:
-•	ray_cast(self) - методът изпълнява ray casting за всеки лъч, който трябва да бъде изчислен от текущата позиция на героя и неговия pov. Ray casting на хоризонтални и вертикални повърхности: разделяне на сцената на хоризонтални и вертикални сегменти и изчисляване на първата точка на контакт на лъча с препятствие.
-Отстраняване на fishbowl ефекта: коригиране на изкривяванията, които възникват поради различията в разстоянията до обекти.
-Промяна на мащаба: изчисляване на височината на стената, която се вижда на екрана, в зависимост от разстоянието до нея.
-•	get_objects_to_render(self) - приема резултатите от ray_casting_result (списъкът, който съхранява резултатите от всеки изчислен лъч) и преобразува информацията във визуални данни, които могат да бъдат изобразени на екрана. Изчислява и създава текстурни колони за всяка стена, които се оразмеряват и позиционират на екрана според изчислените дълбочини и ъгли.
+```bash
+git clone https://github.com/yourusername/ray-casting-game.git
+cd ray-casting-game
+```
 
-8.NPC:
-•	Класът NPC наследява класа Sprite, което му позволява да използва всички функционалности свързани със спрайтове. Класът реализира поведението на няколко enemy героя като позволява дефинирането на общи поведения като движение, атака и др.
-Методи:
-•	update(self) - актуализира състоянието на NPC, проверявайки анимациите, актуализирайки позиции на спрайтове и управлявайки логиката на NPC в зависимост от неговото състояние.
-•	check_wall(self, x, y) - проверява дали дадена позиция (x, y) се сблъска със стена на картата, помагайки в откриването на колизии.
-•	check_wall_collision(self, dx, dy) - коригира движението на NPC, за да избегне минаване през стени, като модифицира координатите му, ако се открие стена отпред.
-•	movement(self) - управлява движението на NPC към играча, използвайки тригонометрични функции за изчисление на посоката и прилагайки я за определяне на новата позиция.
-•	attack(self) - управлява логиката на атаката, нанасяйки щети на героя, ако условията са изпълнени (например, в рамките на дистанцията за атака и успешен удар въз основа на accuracy).
-•	animate_death(self) - управлява анимацията на смъртта на NPC, включително ефекти като примигване на изображението, преди NPC накрая да изчезне след определено време.
-•	animate_pain(self) - управлява анимацията, когато NPC получи щети.
-•	check_hit_in_npc(self) - проверява дали NPC е ударен от атаката на героя.
-•	check_health(self) - проверява здравето на NPC и актуализира неговото състояние до мъртъв, ако здравето падне под 1.
-•	run_logic(self) - централна функция за изпълнение на логиката на NPC в зависимост от неговото състояние (например, атакува, търси героя, движи се).
-•	ray_cast_hero_npc(self) - специфичен метод за определяне дали героят е в полезрението, използвайки ray casting, критично за вземането на решения, като например започване на атака.
+## Usage
 
-9.GameManager:
-•	класът GameManager  управлява специфични методи за  npc-тата и проверява дали играта е приключила, ако няма останали enemies. 
-Методи:
-•	check_win(self) - проверява дали всички npc-тата са били унищожени (ако npc_positions е празен). Ако условието е изпълнено, тригва показването на съобщение чрез self.game.objects.win() и опреснява дисплея.
-•	spawn_npc(self) - създава NPC-та до достигане на зададения брой (self.enemies). Избира случаен тип npc на база предварително зададени тегла и създава инстанции на тези npc-та на случайно генерирани позиции, които не са в ограничента зона или на позиции вече заети от стени или други npc-та.
-•	update(self) - обновява позициите на всички оцелели npc-та в npc_positions. Извиква update() метода за всеки npc-та в списъка npc_list за обновяване на техните състояния. Проверява условието за победа чрез self.check_win().
-•	add_npc(self, npc) - добавя npc-та в npc_list. 
+To start the game, run the `main.py` file:
+
+```bash
+python main.py
+```
+
+## Main Components
+
+### Game Class
+
+The `Game` class is the main controller of the game. It initializes and manages the game loop, including event handling, game state updates, and rendering objects.
+
+- **Methods:**
+  - `update()`: Updates the game state.
+  - `create()`: Renders objects.
+  - `run()`: Runs the main loop that continues while the game is active.
+
+### Map Class
+
+The `Map` class converts the abstract representation of the world (via a two-dimensional array) into graphical objects that can be displayed on the screen.
+
+### Hero Class
+
+The `Hero` class represents the player's character in the game, handling movement, interactions, and status.
+
+### Enemy Class
+
+The `Enemy` class represents non-player characters that the player interacts with or combats within the game.
+
+### Weapon Class
+
+The `Weapon` class handles the functionality and effects of the player's weapons.
+
+### RayCasting Class
+
+The `RayCasting` class implements the raycasting technique to render the 3D perspective from the 2D map.
+
+### Objects Class
+
+The `Objects` class manages various interactive and static objects within the game world.
+
+### Sprite Class
+
+The `Sprite` class handles the graphical representation of objects, including their animations and transformations.
+
+### Constants
+
+The `constants.py` file contains various constants used throughout the game, such as screen dimensions, colors, and game settings.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code adheres to the project's coding standards and includes appropriate tests.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for more information.
